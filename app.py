@@ -506,7 +506,7 @@ if page == "🏠 Dashboard":
                 with cols[i % 3]:
                     chart_path = os.path.join(IMG_DIR, chart)
                     st.image(chart_path, caption=chart.replace('.png', '').replace('_', ' ').title(),
-                             use_column_width=True)
+                             use_container_width=True)
     else:
         st.info("ℹ️ Chưa có dữ liệu. Hãy chạy `python train_pipeline.py` trước.")
         
@@ -850,7 +850,7 @@ elif page == "📊 Kết quả Training":
                 with img_cols[i % 2]:
                     st.image(os.path.join(IMG_DIR, img_name), 
                              caption=img_name.replace('.png', '').replace('_', ' ').title(),
-                             use_column_width=True)
+                             use_container_width=True)
     
     with tab_nn:
         st.markdown('<div class="section-header">Kết quả Neural Network</div>', unsafe_allow_html=True)
@@ -887,7 +887,7 @@ elif page == "📊 Kết quả Training":
                 with img_cols[i % 2]:
                     st.image(os.path.join(IMG_DIR, img),
                              caption=img.replace('.png', '').replace('_', ' ').title(),
-                             use_column_width=True)
+                             use_container_width=True)
     
     with tab_ar:
         st.markdown('<div class="section-header">Kết quả Luật kết hợp (FP-Growth)</div>', unsafe_allow_html=True)
@@ -928,7 +928,7 @@ elif page == "📊 Kết quả Training":
                 ar_cols = st.columns(len(available_ar))
                 for i, img in enumerate(available_ar):
                     with ar_cols[i]:
-                        st.image(os.path.join(IMG_DIR, img), use_column_width=True)
+                        st.image(os.path.join(IMG_DIR, img), use_container_width=True)
         else:
             st.info("Chưa có kết quả Association Rules. Chạy pipeline trước.")
 
@@ -980,8 +980,13 @@ elif page == "📚 Khám phá Dataset":
             return colors.get(val, '')
         
         styled_df = filtered[display_cols].head(n_display)
+        try:
+            # pandas >= 2.1 uses .map(), older uses .applymap()
+            styled = styled_df.style.map(color_difficulty, subset=['difficulty'])
+        except AttributeError:
+            styled = styled_df.style.applymap(color_difficulty, subset=['difficulty'])
         st.dataframe(
-            styled_df.style.applymap(color_difficulty, subset=['difficulty']),
+            styled,
             use_container_width=True,
             height=450
         )
