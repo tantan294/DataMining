@@ -1,0 +1,31 @@
+{
+  "dataset": {
+    "total_records": 13438,
+    "khan_records": 8068,
+    "coursera_records": 5370,
+    "difficulty_distribution": {
+      "Hard": 10740,
+      "Easy": 1732,
+      "Medium": 966
+    }
+  },
+  "clustering": {
+    "best_k": 15,
+    "n_components_svd": 100,
+    "best_bic": -4565569.85687907,
+    "best_silhouette": 0.14571980502738266
+  },
+  "neural_network": {
+    "MLP": {
+      "accuracy": 0.856,
+      "f1": 0.8505
+    },
+    "DeepNN": {
+      "accuracy": 0.7991,
+      "f1": 0.7099
+    }
+  },
+  "association_rules": {
+    "total_rules": 338
+  }
+}
